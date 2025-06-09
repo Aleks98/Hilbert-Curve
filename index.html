@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Hilbert Curve Visualization</title>
+	<style>
+		canvas {
+			border: 1px solid #000;
+		}
+
+		label {
+			margin-right: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<label for="order">Hilbert Curve Order (1-9):</label>
+	<input type="number" id="order" min="1" max="9" value="1" />
+	<canvas id="canvas" width="512" height="512"></canvas>
+
+	<script src="hilbert.js"></script>
+</body>
+
+</html>
