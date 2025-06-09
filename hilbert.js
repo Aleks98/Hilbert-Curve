@@ -2,6 +2,8 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const orderInput = document.getElementById('order');
 
+let currentOrder = parseInt(orderInput.value);
+
 function d2xy(n, d) {
 	let x = 0, y = 0;
 	for (let s = 1, t = d; s < n; s *= 2) {
@@ -26,6 +28,13 @@ function rot(n, x, y, rx, ry) {
 	return [x, y];
 }
 
+function resizeCanvas() {
+	const size = Math.min(window.innerWidth, window.innerHeight);
+	canvas.width = size;
+	canvas.height = size;
+	drawHilbert(currentOrder);
+}
+
 function drawHilbert(order) {
 	const size = Math.pow(2, order);
 	const totalPoints = size * size;
@@ -38,19 +47,27 @@ function drawHilbert(order) {
 		const [x, y] = d2xy(size, i);
 		const px = x * scale + scale / 2;
 		const py = y * scale + scale / 2;
-		if (i === 0) {
-			ctx.moveTo(px, py);
-		} else {
+
+		const t = i / totalPoints;
+		const hue = Math.floor(t * 360);
+		ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+		if (i > 0) {
+			const [prevX, prevY] = d2xy(size, i - 1);
+			const ppx = prevX * scale + scale / 2;
+			const ppy = prevY * scale + scale / 2;
+			ctx.beginPath();
+			ctx.moveTo(ppx, ppy);
 			ctx.lineTo(px, py);
+			ctx.stroke();
 		}
 	}
-
-	ctx.stroke();
 }
 
 orderInput.addEventListener('input', () => {
-	const order = parseInt(orderInput.value);
-	drawHilbert(order);
+	currentOrder = parseInt(orderInput.value);
+	drawHilbert(currentOrder);
 });
 
-drawHilbert(parseInt(orderInput.value));
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();

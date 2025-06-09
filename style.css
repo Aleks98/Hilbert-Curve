@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    height: 100%;
+    overflow: hidden;
+}
+
+#order-control {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    color: white;
+    font-family: sans-serif;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+    background: black;
+}
